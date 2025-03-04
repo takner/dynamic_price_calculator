@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_template_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.dynamic.price</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="after">
+                <page string="محاسبه قیمت ارزی" name="currency_price">
+                    <group>
+                        <field name="price_in_dollar"/>
+                        <field name="havale_fee"/>
+                        <field name="commission_percentage"/>
+                        <field name="last_updated_price" readonly="1"/>
+                        <field name="last_update_date" readonly="1"/>
+                        <button name="_compute_price_in_currency" string="بروزرسانی قیمت" type="object" class="oe_highlight"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- دکمه بروزرسانی همه قیمت‌ها -->
+    <record id="action_update_all_prices" model="ir.actions.server">
+        <field name="name">بروزرسانی همه قیمت‌ها</field>
+        <field name="model_id" ref="model_product_template"/>
+        <field name="binding_model_id" ref="model_product_template"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = model.update_all_prices()
+        </field>
+    </record>
+</odoo>
